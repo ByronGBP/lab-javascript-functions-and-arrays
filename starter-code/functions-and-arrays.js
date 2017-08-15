@@ -1,14 +1,46 @@
 // Find the maximum
 function maxOfTwoNumbers (first, second) {
 
+
+  if(first == second) {
+
+    console.log("Both number are equals");
+
+  }else if(first > second) {
+
+    return first;
+
+  }else {
+
+    return second;
+
+  }
+
 }
 
 var largest = maxOfTwoNumbers(2, 6);
-console.log(largest);
+console.log("Maximus: " +largest);
+
 
 // Finding Longest Word
 function findLongestWord (words) {
 
+  var longestWord = words[0];
+
+  // words.forEach(function(word){
+  //   if (word.length > longestWord.length) {
+  //     longestWord = word;
+  //   }
+  // });
+
+  for (var i = 0; i < words.length; i++) {
+
+    if (words[i].length > longestWord.length) {
+      longestWord = words[i];
+    }
+  }
+
+  return longestWord;
 }
 
 var words = [
@@ -20,20 +52,37 @@ var words = [
   "orchard",
   "crackpot"
 ];
+
 var longest = findLongestWord(words);
 console.log(longest);
 
 // Calculating a Sum
-function sumArray (array) {
+function sumArray(array) {
 
+  var sum = 0;
+
+  for(var i = 0; i < array.length; i++) {
+
+    sum += array[i];
+
+  }
+
+  return sum;
 }
 
 var numbers = [6, 12, 1, 18, 13, 16, 2, 1, 8, 10];
 var total = sumArray(numbers);
 console.log(total);
 
+
 // Calculate the Average
-function averageNumbers (array) {
+
+//DRY
+//Dont repeat yourself
+function averageNumbers(arrayAverage) {
+
+  var total = sumArray(arrayAverage) / arrayAverage.length;
+  return total;
 
 }
 
@@ -41,8 +90,16 @@ var numbers = [2, 6, 9, 10, 7, 4, 1, 9];
 var average = averageNumbers(numbers);
 console.log(average);
 
-// Array of Strings
-function averageWordLength (array) {
+//Array of String
+function averageWordLength(array) {
+
+  var sumWord = 0;
+
+  for(var i = 0; i < array.length; i++) {
+    sumWord += array[i].length;
+  }
+
+  return sumWord / array.length;
 
 }
 
@@ -61,8 +118,42 @@ var words = [
 var averageLength = averageWordLength(words);
 console.log(averageLength);
 
+
 // Unique Arrays
 function uniquifyArray (array) {
+
+  var uniqueArray = [];
+  var matchedIndex = [];
+
+  for (var i = 0; i < array.length; i++) {
+
+    if(!isInTheArray(matchedIndex, i)) {
+      uniqueArray.push(array[i]);
+    }
+
+    for(var j = i + 1; j < array.length; j++) {
+
+      if (array[i] === array[j] && !isInTheArray(matchedIndex, j)){
+
+        matchedIndex.push(j);
+
+      }
+    }
+  }
+
+  return uniqueArray;
+}
+
+function isInTheArray(array, element) {
+
+  for (var i = 0; i < array.length; i++) {
+
+    if (element === array[i]) {
+      return true;
+    }
+  }
+
+  return false;
 
 }
 
@@ -82,8 +173,11 @@ var words = [
 var uniqued = uniquifyArray(words);
 console.log(uniqued);
 
+
 // Finding Elements
 function doesWordExist (wordsArray, word) {
+
+  return isInTheArray(wordsArray,word);
 
 }
 
@@ -107,6 +201,17 @@ console.log(hasDog);
 // Counting Repetion
 function howManyTimes (words, word) {
 
+  var countWord = 0;
+
+  for (var i = 0; i < words.length; i++) {
+
+    if (word === words[i]) {
+      countWord++;
+    }
+  }
+
+  return countWord;
+
 }
 
 var words = [
@@ -129,10 +234,99 @@ console.log(howManyMatter);
 var howManyDog = howManyTimes(words, "dog");
 console.log(howManyDog);
 
+
+
 // Bonus Quest
-function greatestProduct (matrix) {
+function greatestProduct(matrix) {
+
+  var greatestValue = 0;
+
+  for (var i = 0; i < matrix.length; i++) {
+    for (var j = 0; j < matrix[i].length; j++){
+
+      console.log(i);
+      console.log(j);
+      result = matrixMultiplication(matrix, i, j);
+
+      greatestValue = checkIfIsGreater(result, greatestValue);
+
+      }
+    }
+
+    return greatestValue;
+
+  }
+
+function checkIfIsGreater(result, toCompare) {
+
+  if (result > toCompare) {
+
+    toCompare = result;
+
+  }
+
+  return toCompare;
 
 }
+
+function matrixMultiplication(matrix, i, j) {
+
+  var valueTop = 0;
+  var valueBottom = 0;
+  var valuleLeft = 0;
+  var valueRight = 0;
+
+
+  if (i === 0) {
+    if (j === 0) {
+
+      valueTop = matrix[matrix.length - 1][j];
+      valueBottom = matrix[i + 1][j];
+      valuleLeft = matrix[0][matrix[i].length - 1];
+      valueRight = matrix[i][j + 1];
+
+    }
+    if (j === matrix[i].length - 1) {
+
+      valueTop = matrix[matrix.length - 1][matrix[i].length - 1];
+      valueBottom = matrix[i + 1][j];
+      valuleLeft = matrix[i][j - 1];
+      valueRight = matrix[0][0];
+
+    }
+  }
+  else if (i === matrix.length - 1) {
+
+    if (j === 0) {
+
+      valueTop = matrix[i - 1][j];
+      valueBottom = matrix[0][0];
+      valuleLeft = matrix[matrix.length - 1][matrix[i].length - 1];
+      valueRight = matrix[i][j + 1];
+
+
+    }
+    if (j === matrix[i].length - 1) {
+
+      valueTop = matrix[i - 1][j];
+      valueBottom = matrix[0][matrix[i].length - 1];
+      valuleLeft = matrix[i][j - 1];
+      valueRight = matrix[matrix.length - 1][0];
+
+    }
+  } else {
+
+    valueTop = matrix[i - 1][j];
+    valueBottom = matrix[i + 1][j];
+    valuleLeft = matrix[i][j - 1];
+    valueRight = matrix[i][j + 1];
+
+  }
+
+  return valueRight * valueTop * valueBottom * valuleLeft;
+
+}
+
 
 var matrix = [
   [08,02,22,97,38,15,0,40,0,75,04,05,07,78,52,12,50,77,91,08],
